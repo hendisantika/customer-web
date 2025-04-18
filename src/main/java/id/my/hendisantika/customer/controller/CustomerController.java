@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Slf4j
 @Controller
-@RequestMapping("/customers")
+@RequestMapping({"/customers", "/"})
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerRepository customerRepository;
@@ -34,20 +34,20 @@ public class CustomerController {
     public String listCustomers(Model model) {
         log.info("Listing customers ....");
         model.addAttribute("customers", customerRepository.findAll());
-        return "customers/list";
+        return "customer/list";
     }
 
-    @GetMapping("/new)")
+    @GetMapping("/new")
     public String showCreateForm(Model model) {
         log.info("Showing create form ....");
         model.addAttribute("customer", new Customer());
-        return "customers/form";
+        return "customer/form";
     }
 
     @PostMapping("/save")
     public String saveCustomer(Customer customer, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "customers/form";
+            return "customer/form";
         }
         log.info("Saving customer ....");
         customerRepository.save(customer);
@@ -59,7 +59,7 @@ public class CustomerController {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
         log.info("Showing edit form ....");
         model.addAttribute("customer", customer);
-        return "customers/form";
+        return "customer/form";
     }
 
     @GetMapping("/delete/{id}")

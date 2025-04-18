@@ -2,44 +2,54 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title th:text="${customer.id == null} ? 'Add Customer' : 'Edit Customer'">Customer Form</title>
     <link rel="stylesheet" th:href="@{/css/output.css}"/>
 </head>
-<body class="bg-gray-100 p-8 font-sans">
+<body class="bg-gradient-to-r from-blue-50 to-indigo-50 min-h-screen p-8 font-sans">
 
-<div class="container mx-auto max-w-lg bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800"
-        th:text="${customer.id == null} ? 'Add New Customer' : 'Edit Customer'">Customer Form</h1>
+<div class="container mx-auto max-w-lg bg-white p-8 rounded-xl shadow-lg transform transition-all">
+    <div class="mb-8">
+        <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600"
+            th:text="${customer.id == null} ? 'Add New Customer' : 'Edit Customer'">Customer Form</h1>
+        <p class="text-gray-500 mt-2">Please fill in the customer information below</p>
+    </div>
 
     <!--/* Use th:object for binding and th:action for form submission */-->
-    <form class="space-y-4" method="post" th:action="@{/customers/save}" th:object="${customer}">
+    <form class="space-y-6" method="post" th:action="@{/customers/save}" th:object="${customer}">
 
         <!--/* Hidden input for ID during updates */-->
         <input th:field="*{id}" type="hidden"/>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1" for="name">Name:</label>
-            <input class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="name" placeholder="Enter customer name" th:field="*{name}"
+        <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700" for="name">Name</label>
+            <input class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                   id="name"
+                   placeholder="Enter customer name"
+                   th:field="*{name}"
                    type="text"/>
             <!--/* Display validation errors */-->
             <p class="text-red-500 text-xs mt-1" th:errors="*{name}"
                th:if="${#fields.hasErrors('name')}"></p>
         </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1" for="email">Email:</label>
-            <input class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="email" placeholder="Enter customer email" th:field="*{email}"
+        <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700" for="email">Email</label>
+            <input class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                   id="email"
+                   placeholder="Enter customer email"
+                   th:field="*{email}"
                    type="email"/>
             <p class="text-red-500 text-xs mt-1" th:errors="*{email}"
                th:if="${#fields.hasErrors('email')}"></p>
         </div>
 
-        <div class="flex justify-end space-x-3 pt-4">
-            <a class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+        <div class="flex justify-end space-x-4 pt-6">
+            <a class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-md"
                th:href="@{/customers}">
                 Cancel
             </a>
-            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+            <button class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-md"
                     type="submit">
                 Save Customer
             </button>
