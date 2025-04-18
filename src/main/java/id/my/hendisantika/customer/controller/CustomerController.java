@@ -3,6 +3,8 @@ package id.my.hendisantika.customer.controller;
 import id.my.hendisantika.customer.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -21,4 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerRepository customerRepository;
+
+    @GetMapping
+    public String listCustomers(Model model) {
+        model.addAttribute("customers", customerRepository.findAll());
+        return "customers/list";
+    }
 }
