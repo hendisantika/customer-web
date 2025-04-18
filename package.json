@@ -8,7 +8,7 @@
     "watch:css": "npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hendi Santika",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^10.4.21",
