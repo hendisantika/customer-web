@@ -29,4 +29,10 @@ public class CustomerController {
         model.addAttribute("customers", customerRepository.findAll());
         return "customers/list";
     }
+
+    @GetMapping("/new)")
+    public String showCreateForm(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "customers/create";
+    }
 }
