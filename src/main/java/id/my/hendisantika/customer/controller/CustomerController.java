@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -36,15 +37,23 @@ public class CustomerController {
     @GetMapping("/new)")
     public String showCreateForm(Model model) {
         model.addAttribute("customer", new Customer());
-        return "customers/create";
+        return "customers/form";
     }
 
     @PostMapping("/save")
     public String saveCustomer(Customer customer, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "customers/create";
+            return "customers/form";
         }
         customerRepository.save(customer);
         return "redirect:/customers";
     }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
+        model.addAttribute("customer", customer);
+        return "customers/form";
+    }
+
 }
