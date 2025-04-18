@@ -13,21 +13,29 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>customer-web</name>
     <description>customer-web</description>
-    <url/>
+    <url>https://github.com/hendisantika/customer-web</url>
     <licenses>
-        <license/>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <name>Your Name</name>
+            <email>your.email@example.com</email>
+        </developer>
     </developers>
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection>scm:git:git://github.com/hendisantika/customer-web.git</connection>
+        <developerConnection>scm:git:ssh://github.com/hendisantika/customer-web.git</developerConnection>
+        <url>https://github.com/hendisantika/customer-web/tree/main</url>
+        <tag>HEAD</tag>
     </scm>
     <properties>
         <java.version>21</java.version>
+        <node.version>v20.11.1</node.version> <!-- Or your preferred LTS Node version -->
+        <npm.version>10.2.4</npm.version>
     </properties>
     <dependencies>
         <!-- Spring Boot Starters -->
@@ -116,6 +124,55 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <!-- Frontend Maven Plugin (for Tailwind CSS build) -->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <!-- Find the latest version: https://github.com/eirslett/frontend-maven-plugin -->
+                <version>1.15.0</version>
+                <configuration>
+                    <!-- Directory where Node/npm should be installed -->
+                    <installDirectory>target</installDirectory>
+                    <!-- Use project's base directory for npm commands -->
+                    <workingDirectory>${project.basedir}</workingDirectory>
+                </configuration>
+                <executions>
+                    <!-- 1. Install Node and npm -->
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>${node.version}</nodeVersion>
+                            <npmVersion>${npm.version}</npmVersion>
+                        </configuration>
+                    </execution>
+                    <!-- 2. Run npm install -->
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <!-- Optional: Define configuration for npm install -->
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <!-- 3. Run Tailwind CSS build -->
+                    <execution>
+                        <id>tailwind build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build:css</arguments>
+                        </configuration>
+                        <!-- Run this during the 'generate-resources' phase -->
+                        <phase>generate-resources</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
