@@ -3,6 +3,7 @@ package id.my.hendisantika.customer.controller;
 import id.my.hendisantika.customer.model.Customer;
 import id.my.hendisantika.customer.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Time: 10.57
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Controller
 @RequestMapping("/customers")
 @RequiredArgsConstructor
@@ -30,12 +32,14 @@ public class CustomerController {
 
     @GetMapping
     public String listCustomers(Model model) {
+        log.info("Listing customers ....");
         model.addAttribute("customers", customerRepository.findAll());
         return "customers/list";
     }
 
     @GetMapping("/new)")
     public String showCreateForm(Model model) {
+        log.info("Showing create form ....");
         model.addAttribute("customer", new Customer());
         return "customers/form";
     }
@@ -45,6 +49,7 @@ public class CustomerController {
         if (bindingResult.hasErrors()) {
             return "customers/form";
         }
+        log.info("Saving customer ....");
         customerRepository.save(customer);
         return "redirect:/customers";
     }
@@ -52,8 +57,17 @@ public class CustomerController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
+        log.info("Showing edit form ....");
         model.addAttribute("customer", customer);
         return "customers/form";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable("id") Long id, Model model) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
+        customerRepository.delete(customer);
+        log.info("Deleting customer ....");
+        return "redirect:/customers";
     }
 
 }
