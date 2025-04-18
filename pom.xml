@@ -130,7 +130,7 @@
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <!-- Find the latest version: https://github.com/eirslett/frontend-maven-plugin -->
-                <version>1.15.0</version>
+                <version>1.15.1</version>
                 <configuration>
                     <!-- Directory where Node/npm should be installed -->
                     <installDirectory>target</installDirectory>
