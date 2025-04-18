@@ -1,10 +1,13 @@
 package id.my.hendisantika.customer.controller;
 
+import id.my.hendisantika.customer.model.Customer;
 import id.my.hendisantika.customer.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -34,5 +37,14 @@ public class CustomerController {
     public String showCreateForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "customers/create";
+    }
+
+    @PostMapping("/save")
+    public String saveCustomer(Customer customer, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "customers/create";
+        }
+        customerRepository.save(customer);
+        return "redirect:/customers";
     }
 }
